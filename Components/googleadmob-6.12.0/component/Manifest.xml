@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<component format="1" id="googleadmob">
+  <name>Google AdMob</name>
+  <publisher>Xamarin Inc</publisher>
+  <publisher-url>https://xamarin.com</publisher-url>
+  <src-url>https://developers.google.com/mobile-ads-sdk/</src-url>
+  <version>6.12.0</version>
+  <summary>Connect with advertisers and show relevant ads in your app. Users click on ads, you make money.</summary>
+  <samples>
+    <sample id="GoogleAdmobSample">
+      <name>iOS Unified Sample</name>
+      <summary>iOS Unified Sample</summary>
+    </sample>
+    <sample id="GoogleAdmobSample-Classic">
+      <name>iOS Classic Sample</name>
+      <summary>iOS Classic Sample</summary>
+    </sample>
+  </samples>
+</component>
