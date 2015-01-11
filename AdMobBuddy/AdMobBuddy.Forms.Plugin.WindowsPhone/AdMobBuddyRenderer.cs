@@ -12,6 +12,10 @@ namespace AdmobBuddy.Forms.Plugin.WindowsPhone
 	/// </summary>
 	public class AdMobBuddyRenderer : ViewRenderer
 	{
+		/// <summary>
+		/// reload the view and hit up google admob 
+		/// </summary>
+		/// <param name="e"></param>
 		protected override void OnElementChanged(ElementChangedEventArgs<View> e)
 		{
 			base.OnElementChanged(e);

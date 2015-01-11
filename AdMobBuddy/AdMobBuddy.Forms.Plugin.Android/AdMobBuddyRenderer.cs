@@ -13,6 +13,10 @@ namespace AdMobBuddy.Forms.Plugin.Droid
 	/// </summary>
 	public class AdMobBuddyRenderer : ViewRenderer
 	{
+		/// <summary>
+		/// reload the view and hit up google admob 
+		/// </summary>
+		/// <param name="e"></param>
 		protected override void OnElementChanged(ElementChangedEventArgs<View> e)
 		{
 			base.OnElementChanged(e);

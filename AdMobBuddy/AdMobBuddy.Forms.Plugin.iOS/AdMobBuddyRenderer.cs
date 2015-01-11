@@ -16,6 +16,11 @@ namespace AdMobBuddy.Forms.Plugin.iOS
 	{
 		GADBannerView adView;
 		bool viewOnScreen = false;
+
+		/// <summary>
+		/// reload the view and hit up google admob 
+		/// </summary>
+		/// <param name="e"></param>
 		protected override void OnElementChanged(ElementChangedEventArgs<Xamarin.Forms.View> e)
 		{
 			base.OnElementChanged(e);
