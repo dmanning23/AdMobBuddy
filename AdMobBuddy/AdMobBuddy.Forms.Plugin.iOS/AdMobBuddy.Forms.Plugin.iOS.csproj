@@ -28,12 +28,12 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>none</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\iPhone\Release</OutputPath>
+    <OutputPath>bin\Release\</OutputPath>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <ConsolePause>false</ConsolePause>
     <CodesignKey>iPhone Developer</CodesignKey>
-    <DocumentationFile>bin\iPhone\Release\AdMobBuddy.Forms.Plugin.iOS.XML</DocumentationFile>
+    <DocumentationFile>bin\Release\AdMobBuddy.Forms.Plugin.iOS.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="AdMobBuddyRenderer.cs" />
