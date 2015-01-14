@@ -2,8 +2,8 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
 	<metadata minClientVersion="2.8.1">
 		<id>Xam.Plugins.Forms.AdMobBuddy</id>
-		<version>1.0.1</version>
-		<title>AdMobBuddy</title>
+		<version>1.0.5</version>
+		<title>AdMobBuddy Plugin for Xamarin.Forms</title>
 		<authors>Dan Manning</authors>
 		<owners>Dan Manning</owners>
 		<licenseUrl>https://github.com/dmanning23/AdMobBuddy/blob/master/LICENSE</licenseUrl>
@@ -11,6 +11,7 @@
 		<iconUrl>https://raw.githubusercontent.com/dmanning23/AdMobBuddy/master/icon.jpg</iconUrl>
 		<requireLicenseAcceptance>false</requireLicenseAcceptance>
 		<description>
+			Still a work in progress, not ready to be installed.
 			Custom control for your Xamarin.Forms project to add AdMob integration
 		</description>
 		<summary>Simple AdMob integration for your Xamarin.Forms projects</summary>
@@ -48,6 +49,8 @@
 		<file src="AdmobBuddy\AdmobBuddy.Forms.Plugin.Abstractions\bin\Release\AdmobBuddy.Forms.Plugin.Abstractions.dll" target="lib\wp8\AdmobBuddy.Forms.Plugin.Abstractions.dll" />
 		<file src="AdmobBuddy\AdmobBuddy.Forms.Plugin.Abstractions\bin\Release\AdmobBuddy.Forms.Plugin.Abstractions.xml" target="lib\wp8\AdmobBuddy.Forms.Plugin.Abstractions.xml" />
 		<file src="AdmobBuddy\AdmobBuddy.Forms.Plugin.Abstractions\bin\Release\AdmobBuddy.Forms.Plugin.Abstractions.pdb" target="lib\wp8\AdmobBuddy.Forms.Plugin.Abstractions.pdb" />
+		<file src="AdmobBuddy\AdmobBuddy.Forms.Plugin.WindowsPhone\bin\Release\GoogleAds.dll" target="lib\wp8\GoogleAds.dll" />
+		<file src="AdmobBuddy\AdmobBuddy.Forms.Plugin.WindowsPhone\bin\Release\GoogleAds.xml" target="lib\wp8\GoogleAds.xml" />
 
 
 		<!--Xamarin.Android-->

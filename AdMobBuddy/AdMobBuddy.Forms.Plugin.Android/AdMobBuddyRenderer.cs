@@ -14,6 +14,11 @@ namespace AdMobBuddy.Forms.Plugin.Droid
 	public class AdMobBuddyRenderer : ViewRenderer
 	{
 		/// <summary>
+		/// Used for registration with dependency service
+		/// </summary>
+		public static void Init() { }
+
+		/// <summary>
 		/// reload the view and hit up google admob 
 		/// </summary>
 		/// <param name="e"></param>

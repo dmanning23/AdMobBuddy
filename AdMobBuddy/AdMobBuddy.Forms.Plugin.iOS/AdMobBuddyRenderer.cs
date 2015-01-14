@@ -18,6 +18,11 @@ namespace AdMobBuddy.Forms.Plugin.iOS
 		bool viewOnScreen = false;
 
 		/// <summary>
+		/// Used for registration with dependency service
+		/// </summary>
+		public static void Init() { }
+
+		/// <summary>
 		/// reload the view and hit up google admob 
 		/// </summary>
 		/// <param name="e"></param>
