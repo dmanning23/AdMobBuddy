@@ -1,7 +1,11 @@
 ﻿using AdMobBuddy.Forms.Plugin.Abstractions;
 using System;
 using GoogleAdMobAds;
+#if __UNIFIED__
+using UIKit;
+#else
 using MonoTouch.UIKit;
+#endif
 using Xamarin.Forms;
 using AdMobBuddy.Forms.Plugin.iOS;
 using Xamarin.Forms.Platform.iOS;
