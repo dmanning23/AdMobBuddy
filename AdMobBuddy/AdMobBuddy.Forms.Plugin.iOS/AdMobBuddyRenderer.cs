@@ -9,6 +9,7 @@ using MonoTouch.UIKit;
 using Xamarin.Forms;
 using AdMobBuddy.Forms.Plugin.iOS;
 using Xamarin.Forms.Platform.iOS;
+using System.ComponentModel;
 
 [assembly: ExportRenderer(typeof(AdMobBuddy.Forms.Plugin.Abstractions.AdMobBuddyControl), typeof(AdMobBuddyRenderer))]
 namespace AdMobBuddy.Forms.Plugin.iOS
