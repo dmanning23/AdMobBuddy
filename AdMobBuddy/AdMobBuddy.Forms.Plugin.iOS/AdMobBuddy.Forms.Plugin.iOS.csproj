@@ -49,8 +49,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="GoogleAdMobAds">
-      <HintPath>..\..\Components\googleadmob-6.12.0\lib\ios\GoogleAdMobAds.dll</HintPath>
+    <Reference Include="GoogleAdMobAds, Version=7.2.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Components\googleadmob-7.2.2\lib\ios\GoogleAdMobAds.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Runtime" />

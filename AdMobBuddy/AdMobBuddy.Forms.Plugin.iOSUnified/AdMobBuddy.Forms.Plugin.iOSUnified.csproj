@@ -51,9 +51,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="GoogleAdMobAds">
-      <HintPath>..\..\Components\googleadmob-6.12.0\lib\ios-unified\GoogleAdMobAds.dll</HintPath>
-    </Reference>
+	  <Reference Include="GoogleAdMobAds, Version=7.2.2.0, Culture=neutral, processorArchitecture=MSIL">
+		  <SpecificVersion>False</SpecificVersion>
+		  <HintPath>..\..\Components\googleadmob-7.2.2\lib\ios\GoogleAdMobAds.dll</HintPath>
+	  </Reference>
     <Reference Include="System" />
     <Reference Include="System.Runtime" />
     <Reference Include="System.Xml" />
@@ -80,11 +81,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <XamarinComponentReference Include="googleadmob">
-      <Visible>False</Visible>
-      <Version>7.2.2</Version>
-      <InstallationInProgress>True</InstallationInProgress>
-    </XamarinComponentReference>
+	  <XamarinComponentReference Include="googleadmob">
+		  <Visible>False</Visible>
+		  <Version>7.2.2</Version>
+	  </XamarinComponentReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

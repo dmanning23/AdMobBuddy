@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
 	<metadata minClientVersion="2.8.1">
 		<id>Xam.Plugins.Forms.AdMobBuddy</id>
-		<version>1.0.7</version>
+		<version>1.0.11</version>
 		<title>AdMobBuddy Plugin for Xamarin.Forms</title>
 		<authors>Dan Manning</authors>
 		<owners>Dan Manning</owners>
@@ -20,23 +20,23 @@
 
 			<!--Xamarin.Android-->
 			<group targetFramework="MonoAndroid10">
-				<dependency id="Xamarin.Forms" version="1.3.1.6296" />
-				<dependency id="Xamarin.GooglePlayServices" version="22.0.0.0" />
+				<dependency id="Xamarin.Forms" version="1.4.4.6392" />
+				<dependency id="Xamarin.GooglePlayServices.Ads" version="25.0.0" />
 			</group>
 
 			<!--Xamarin.iOS-->
 			<group targetFramework="MonoTouch10">
-				<dependency id="Xamarin.Forms" version="1.3.1.6296" />
+				<dependency id="Xamarin.Forms" version="1.4.4.6392" />
 			</group>
 
       <!--Xamarin.iOS Unified-->
       <group targetFramework="Xamarin.iOS10">
-        <dependency id="Xamarin.Forms" version="1.3.1.6296" />
+        <dependency id="Xamarin.Forms" version="1.4.4.6392" />
       </group>
 
       <!--Win Phone-->
 			<group targetFramework="wp8">
-				<dependency id="Xamarin.Forms" version="1.3.1.6296" />
+				<dependency id="Xamarin.Forms" version="1.4.4.6392" />
 			</group>
 
 		</dependencies>
@@ -70,12 +70,13 @@
 		<file src="AdmobBuddy\AdmobBuddy.Forms.Plugin.iOS\bin\Release\AdmobBuddy.Forms.Plugin.iOS.xml" target="lib\MonoTouch10\AdmobBuddy.Forms.Plugin.iOS.xml" />
 		<file src="AdmobBuddy\AdmobBuddy.Forms.Plugin.Abstractions\bin\Release\AdmobBuddy.Forms.Plugin.Abstractions.dll" target="lib\MonoTouch10\AdmobBuddy.Forms.Plugin.Abstractions.dll" />
 		<file src="AdmobBuddy\AdmobBuddy.Forms.Plugin.Abstractions\bin\Release\AdmobBuddy.Forms.Plugin.Abstractions.xml" target="lib\MonoTouch10\AdmobBuddy.Forms.Plugin.Abstractions.xml" />
+		<file src="AdmobBuddy\AdmobBuddy.Forms.Plugin.iOS\bin\Release\GoogleAdMobAds.dll" target="lib\MonoTouch10\GoogleAdMobAds.dll" />
 
-    <!--Xamarin.iOS Unified-->
-    <file src="AdmobBuddy\AdmobBuddy.Forms.Plugin.iOSUnified\bin\Release\AdmobBuddy.Forms.Plugin.iOSUnified.dll" target="lib\Xamarin.iOS10\AdmobBuddy.Forms.Plugin.iOSUnified.dll" />
-    <file src="AdmobBuddy\AdmobBuddy.Forms.Plugin.iOSUnified\bin\Release\AdmobBuddy.Forms.Plugin.iOSUnified.xml" target="lib\Xamarin.iOS10\AdmobBuddy.Forms.Plugin.iOSUnified.xml" />
-    <file src="AdmobBuddy\AdmobBuddy.Forms.Plugin.Abstractions\bin\Release\AdmobBuddy.Forms.Plugin.Abstractions.dll" target="lib\Xamarin.iOS10\AdmobBuddy.Forms.Plugin.Abstractions.dll" />
-    <file src="AdmobBuddy\AdmobBuddy.Forms.Plugin.Abstractions\bin\Release\AdmobBuddy.Forms.Plugin.Abstractions.xml" target="lib\Xamarin.iOS10\AdmobBuddy.Forms.Plugin.Abstractions.xml" />
+		<!--Xamarin.iOS Unified-->
+		<file src="AdmobBuddy\AdmobBuddy.Forms.Plugin.iOSUnified\bin\Release\AdmobBuddy.Forms.Plugin.iOSUnified.dll" target="lib\Xamarin.iOS10\AdmobBuddy.Forms.Plugin.iOSUnified.dll" />
+		<file src="AdmobBuddy\AdmobBuddy.Forms.Plugin.iOSUnified\bin\Release\AdmobBuddy.Forms.Plugin.iOSUnified.xml" target="lib\Xamarin.iOS10\AdmobBuddy.Forms.Plugin.iOSUnified.xml" />
+		<file src="AdmobBuddy\AdmobBuddy.Forms.Plugin.Abstractions\bin\Release\AdmobBuddy.Forms.Plugin.Abstractions.dll" target="lib\Xamarin.iOS10\AdmobBuddy.Forms.Plugin.Abstractions.dll" />
+		<file src="AdmobBuddy\AdmobBuddy.Forms.Plugin.Abstractions\bin\Release\AdmobBuddy.Forms.Plugin.Abstractions.xml" target="lib\Xamarin.iOS10\AdmobBuddy.Forms.Plugin.Abstractions.xml" />
 
   </files>
 </package>

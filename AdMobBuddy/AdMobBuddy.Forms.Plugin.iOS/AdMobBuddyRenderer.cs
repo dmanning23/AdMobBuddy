@@ -46,7 +46,7 @@ namespace AdMobBuddy.Forms.Plugin.iOS
 					RootViewController = UIApplication.SharedApplication.Windows[0].RootViewController
 				};
 
-				adView.DidReceiveAd += (sender, args) =>
+				adView.AdReceived += (sender, args) =>
 				{
 					if (!viewOnScreen) this.AddSubview(adView);
 					viewOnScreen = true;
