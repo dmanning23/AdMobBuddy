@@ -1,15 +1,9 @@
 ﻿using AdMobBuddy.Forms.Plugin.Abstractions;
-using System;
-using GoogleAdMobAds;
-#if __UNIFIED__
-using UIKit;
-#else
-using MonoTouch.UIKit;
-#endif
-using Xamarin.Forms;
 using AdMobBuddy.Forms.Plugin.iOS;
+using Google.MobileAds;
+using UIKit;
+using Xamarin.Forms;
 using Xamarin.Forms.Platform.iOS;
-using System.ComponentModel;
 
 [assembly: ExportRenderer(typeof(AdMobBuddy.Forms.Plugin.Abstractions.AdMobBuddyControl), typeof(AdMobBuddyRenderer))]
 namespace AdMobBuddy.Forms.Plugin.iOS
@@ -19,7 +13,7 @@ namespace AdMobBuddy.Forms.Plugin.iOS
 	/// </summary>
 	public class AdMobBuddyRenderer : ViewRenderer
 	{
-		GADBannerView adView;
+		BannerView adView;
 		bool viewOnScreen = false;
 
 		/// <summary>
@@ -38,23 +32,25 @@ namespace AdMobBuddy.Forms.Plugin.iOS
 			//convert the element to the control we want
 			var adMobElement = Element as AdMobBuddyControl;
 
-			if (null != adMobElement) //TODO: does need this check here?
+			// Setup your BannerView, review AdSizeCons class for more Ad sizes. 
+			adView = new BannerView(AdSizeCons.Banner)
 			{
-				adView = new GADBannerView(size: GADAdSizeCons.Banner)
-				{
-					AdUnitID = adMobElement.AdUnitId,
-					RootViewController = UIApplication.SharedApplication.Windows[0].RootViewController
-				};
+				AdUnitID = adMobElement.AdUnitId,
+				RootViewController = UIApplication.SharedApplication.Windows[0].RootViewController
+			};
 
-				adView.AdReceived += (sender, args) =>
+			// Wire AdReceived event to know when the Ad is ready to be displayed
+			adView.AdReceived += (sender, args) =>
+			{
+				if (!viewOnScreen)
 				{
-					if (!viewOnScreen) this.AddSubview(adView);
-					viewOnScreen = true;
-				};
+					AddSubview(adView);
+				}
+				viewOnScreen = true;
+			};
 
-				adView.LoadRequest(GADRequest.Request);
-				base.SetNativeControl(adView);
-			}
+			adView.LoadRequest(Request.GetDefaultRequest());
+			base.SetNativeControl(adView);
 		}
 	}
 }

@@ -1,5 +1,4 @@
 using AdMobBuddy.Forms.Plugin.Abstractions;
-using System;
 using AdMobBuddy.Forms.Plugin.Droid;
 using Android.Gms.Ads;
 using Xamarin.Forms;
