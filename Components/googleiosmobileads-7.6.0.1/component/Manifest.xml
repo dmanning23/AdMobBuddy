@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<component format="1" id="googleiosmobileads" is-shell="true">
+  <name>Google Mobile Ads</name>
+  <publisher>Xamarin Inc</publisher>
+  <publisher-url>https://xamarin.com</publisher-url>
+  <src-url>https://developers.google.com/mobile-ads-sdk/</src-url>
+  <version>7.6.0.1</version>
+  <summary>Connect with advertisers and show relevant ads in your app. Users click on ads, you make money.</summary>
+  <packages>
+    <package id="Xamarin.Google.iOS.MobileAds" version="7.6.0.1" framework="ios-unified" />
+  </packages>
+  <samples>
+    <sample id="MobileAdsExample">
+      <name>Google Mobile Ads AdMob Sample</name>
+      <summary>Google Mobile Ads AdMob Sample</summary>
+    </sample>
+  </samples>
+</component>
