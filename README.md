@@ -1,2 +1,2 @@
 # AdMobBuddy
-A Xamarin Forms plugin for viewing AdMob ads into an app
+A super easy to use library for adding AdMob ads to Xamarin.Android, Xamarin.iOS, and MonoGame apps.

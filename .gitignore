@@ -39,8 +39,21 @@ x64/
 *.userprefs
 *.cachefile
 *.apk
+*.nupkg
+*csproj.bak
+.DS_Store
+._.DS_Store
+UpgradeLog.htm
+project.lock.json
+
+# pixelmator temp files
+._*.png
+._*.pxm
+._*.psd
+._*
 
 # Visual C++ cache files
+.vs/
 ipch/
 *.aps
 *.ncb
@@ -84,9 +97,6 @@ publish
 # NuGet Packages Directory
 packages
 
-# xamarin component store
-[Cc]omponents\
-
 # Windows Azure Build Output
 csx
 *.build.csdef
@@ -112,20 +122,3 @@ Generated_Code #added for RIA/Silverlight projects
 _UpgradeReport_Files/
 Backup*/
 UpgradeLog*.XML
-
-# =========================
-# Windows detritus
-# =========================
-
-# Windows image file caches
-Thumbs.db
-ehthumbs.db
-
-# Folder config file
-Desktop.ini
-
-# Recycle Bin used on file shares
-$RECYCLE.BIN/
-
-# Mac desktop service store files
-.DS_Store

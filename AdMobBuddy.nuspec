@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+	<metadata>
+		<id>AdMobBuddy</id>
+		<version>1.0.14</version>
+		<title>AdMobBuddy</title>
+		<authors>dmanning23</authors>
+		<owners>dmanning23</owners>
+		<projectUrl>https://github.com/dmanning23/AdMobBuddy</projectUrl>
+		<licenseUrl>https://github.com/dmanning23/AdMobBuddy/blob/master/LICENSE.txt</licenseUrl>
+		<iconUrl>https://raw.githubusercontent.com/dmanning23/AdMobBuddy/master/icon.jpg</iconUrl>
+		<requireLicenseAcceptance>false</requireLicenseAcceptance>
+		<description>AdMob integration for Xamarin.Android and Xamarin.iOS (and MonoGame)</description>
+		<releaseNotes />
+		<copyright>Copyright 2016</copyright>
+		<tags>xamarin, android, ios, admob, monogame</tags>
+		<dependencies>
+
+			<!--Xamarin.Android-->
+			<group targetFramework="MonoAndroid10">
+				<dependency id="Xamarin.GooglePlayServices.Ads.Lite" version="60.1142"/>
+			</group>
+
+			<!--Xamarin.iOS Unified-->
+			<group targetFramework="Xamarin.iOS10">
+				<dependency id="Xamarin.Google.iOS.MobileAds" version="7.31"/>
+			</group>
+
+		</dependencies>
+	</metadata>
+	<files>
+
+		<!--Xamarin.Android-->
+		<file src="AdMobBuddy.Android\bin\Release\AdMobBuddy.Android.pdb" target="lib\MonoAndroid10\AdMobBuddy.Android.pdb" />
+		<file src="AdMobBuddy.Android\bin\Release\AdMobBuddy.Android.dll" target="lib\MonoAndroid10\AdMobBuddy.Android.dll" />
+
+		<!--Xamarin.iOS Unified-->
+		<file src="AdMobBuddy.iOS\bin\Release\AdMobBuddy.iOS.pdb" target="lib\Xamarin.iOS10\AdMobBuddy.iOS.pdb" />
+		<file src="AdMobBuddy.iOS\bin\Release\AdMobBuddy.iOS.dll" target="lib\Xamarin.iOS10\AdMobBuddy.iOS.dll" />
+
+	</files>
+</package>
