@@ -28,3 +28,5 @@ ads.DisplayRewardedVideoAd();
 ```
 
 Step five: profit
+
+If you still have any questions, there is a full-blown functioning app example at: https://github.com/dmanning23/RevMobBuddySample
