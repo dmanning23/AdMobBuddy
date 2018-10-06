@@ -6,6 +6,7 @@ https://www.nuget.org/packages/AdMobBuddy/
 
 Step two (Android), initialize the library in your Activity class:
 ```
+//first param is an Activity
 IAdManager ads = new AdMobAdapter(this, "your AdMob app ID", "your AdMob interstitial ad unit ID", "your Admob rewarded video ad unit ID"
 ```
 
