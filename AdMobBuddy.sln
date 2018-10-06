@@ -15,8 +15,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		buildNugetPackages.ps1 = buildNugetPackages.ps1
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdMobBuddy.WindowsDX", "AdMobBuddy.WindowsDX\AdMobBuddy.WindowsDX.csproj", "{0606515B-8EC4-48E7-9B2C-B5B52A2DF25A}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		AdMobBuddy.SharedProject\AdMobMonoGame.SharedProject.projitems*{0606515b-8ec4-48e7-9b2c-b5b52a2df25a}*SharedItemsImports = 4
 		AdMobBuddy.SharedProject\AdMobMonoGame.SharedProject.projitems*{20e0368a-bf3f-44d3-b494-537002845005}*SharedItemsImports = 4
 		AdMobBuddy.SharedProject\AdMobMonoGame.SharedProject.projitems*{7b527c2a-76e6-445c-84f2-901e5eabe41d}*SharedItemsImports = 13
 		AdMobBuddy.SharedProject\AdMobMonoGame.SharedProject.projitems*{e71f3053-056c-4381-9638-048ed73bdff6}*SharedItemsImports = 4
@@ -34,6 +37,10 @@ Global
 		{E71F3053-056C-4381-9638-048ED73BDFF6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E71F3053-056C-4381-9638-048ED73BDFF6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E71F3053-056C-4381-9638-048ED73BDFF6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0606515B-8EC4-48E7-9B2C-B5B52A2DF25A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0606515B-8EC4-48E7-9B2C-B5B52A2DF25A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0606515B-8EC4-48E7-9B2C-B5B52A2DF25A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0606515B-8EC4-48E7-9B2C-B5B52A2DF25A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
