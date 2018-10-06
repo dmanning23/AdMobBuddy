@@ -228,25 +228,6 @@ namespace AdMobBuddy.iOS
 
 		#endregion //Rewarded Video Ads
 
-		public void ShowBannerAd()
-		{
-			throw new NotImplementedException();
-		}
-
-		public void HideBannerAd()
-		{
-			throw new NotImplementedException();
-		}
-
-		public void DisplayVideoAd()
-		{
-			throw new NotImplementedException();
-		}
-
-		public void Dispose()
-		{
-		}
-
 		#endregion //Methods
 	}
 }

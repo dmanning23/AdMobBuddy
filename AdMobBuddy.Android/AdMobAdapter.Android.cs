@@ -136,21 +136,6 @@ namespace AdMobBuddy.Android
 
 		#endregion //Rewarded Video
 
-		public void ShowBannerAd()
-		{
-			throw new NotImplementedException();
-		}
-
-		public void HideBannerAd()
-		{
-			throw new NotImplementedException();
-		}
-
-		public void DisplayVideoAd()
-		{
-			throw new NotImplementedException();
-		}
-
 		#endregion //Methods
 	}
 }
