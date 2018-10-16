@@ -30,6 +30,8 @@ namespace AdMobBuddy.iOS
 		/// </summary>
 		public string RewardedVideoAdID { get; set; }
 
+		public string TestDeviceID { get; set; }
+
 		#endregion //IDs
 
 		#region Interstitials
@@ -62,11 +64,13 @@ namespace AdMobBuddy.iOS
 		/// <param name="location">The location to place the add on the screen</param>
 		public AdMobAdapter(UIViewController controller, string appId = "ca-app-pub-5144527466254609~8969023993",
 			string interstitialAdID = "ca-app-pub-5144527466254609/8093666842",
-			string rewardedVideoAdID = "ca-app-pub-5144527466254609/1052125086")
+			string rewardedVideoAdID = "ca-app-pub-5144527466254609/1052125086",
+			string testDeviceID = "")
 		{
 			AppID = appId;
 			InterstitialAdID = interstitialAdID;
 			RewardedVideoAdID = rewardedVideoAdID;
+			TestDeviceID = testDeviceID;
 
 			ViewController = controller;
 

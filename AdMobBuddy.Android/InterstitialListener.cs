@@ -51,6 +51,5 @@ namespace AdMobBuddy.Android
 		}
 
 		#endregion //Methods
-
 	}
 }

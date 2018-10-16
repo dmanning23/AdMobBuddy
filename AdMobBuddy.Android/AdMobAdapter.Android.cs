@@ -31,6 +31,8 @@ namespace AdMobBuddy.Android
 		/// </summary>
 		public string RewardedVideoAdID { get; set; }
 
+		public string TestDeviceID { get; set; }
+
 		Activity _activity;
 
 		public event EventHandler<RewardedVideoEventArgs> OnVideoReward;
@@ -39,15 +41,17 @@ namespace AdMobBuddy.Android
 
 		#region Methods
 
-		public AdMobAdapter(Activity activity, string appId = "ca-app-pub-5144527466254609~7481979674", 
-			string interstitialAdID = "ca-app-pub-5144527466254609~7481979674", 
-			string rewardedVideoAdID= "ca-app-pub-5144527466254609/7128710160")
+		public AdMobAdapter(Activity activity, string appId = "ca-app-pub-5144527466254609~7481979674",
+			string interstitialAdID = "ca-app-pub-5144527466254609~7481979674",
+			string rewardedVideoAdID = "ca-app-pub-5144527466254609/7128710160",
+			string testDeviceID = "")
 		{
 			_activity = activity;
 
 			AppID = appId;
 			InterstitialAdID = interstitialAdID;
 			RewardedVideoAdID = rewardedVideoAdID;
+			TestDeviceID = testDeviceID;
 
 			MobileAds.Initialize(_activity, AppID);
 
@@ -68,11 +72,21 @@ namespace AdMobBuddy.Android
 			LoadRewardedVideoAd();
 		}
 
+		private AdRequest.Builder CreateBuilder()
+		{
+			var builder = new AdRequest.Builder();
+			if (!string.IsNullOrEmpty(TestDeviceID))
+			{
+				builder.AddTestDevice(TestDeviceID);
+			}
+			return builder;
+		}
+
 		#region Interstitial Ads
 
 		public void LoadInterstitialAd()
 		{
-			InterstitialAdHandler.LoadAd(new AdRequest.Builder().Build());
+			InterstitialAdHandler.LoadAd(CreateBuilder().Build());
 		}
 
 		public void DisplayInterstitialAd()
@@ -85,7 +99,7 @@ namespace AdMobBuddy.Android
 			{
 				interstitialListener.OnInterstitialLoaded -= InterstitialAdLoaded;
 				interstitialListener.OnInterstitialLoaded += InterstitialAdLoaded;
-				
+
 				LoadInterstitialAd();
 			}
 		}
@@ -102,7 +116,7 @@ namespace AdMobBuddy.Android
 
 		public void LoadRewardedVideoAd()
 		{
-			RewardedVideoAdHandler.LoadAd(RewardedVideoAdID, new AdRequest.Builder().Build());
+			RewardedVideoAdHandler.LoadAd(RewardedVideoAdID, CreateBuilder().Build());
 		}
 
 		public void DisplayRewardedVideoAd()
