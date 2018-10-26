@@ -62,9 +62,9 @@ namespace AdMobBuddy.iOS
 		/// </summary>
 		/// <param name="game">The host game to et the service container from</param>
 		/// <param name="location">The location to place the add on the screen</param>
-		public AdMobAdapter(UIViewController controller, string appId = "ca-app-pub-5144527466254609~8969023993",
-			string interstitialAdID = "ca-app-pub-5144527466254609/8093666842",
-			string rewardedVideoAdID = "ca-app-pub-5144527466254609/1052125086",
+		public AdMobAdapter(UIViewController controller, string appId,
+			string interstitialAdID,
+			string rewardedVideoAdID,
 			string testDeviceID = "")
 		{
 			AppID = appId;

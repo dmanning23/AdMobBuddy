@@ -1,5 +1,6 @@
 ﻿using Android.App;
 using Android.Gms.Ads;
+using Android.Gms.Ads.Mediation;
 using Android.Gms.Ads.Reward;
 using System;
 
@@ -41,9 +42,9 @@ namespace AdMobBuddy.Android
 
 		#region Methods
 
-		public AdMobAdapter(Activity activity, string appId = "ca-app-pub-5144527466254609~7481979674",
-			string interstitialAdID = "ca-app-pub-5144527466254609~7481979674",
-			string rewardedVideoAdID = "ca-app-pub-5144527466254609/7128710160",
+		public AdMobAdapter(Activity activity, string appId,
+			string interstitialAdID,
+			string rewardedVideoAdID,
 			string testDeviceID = "")
 		{
 			_activity = activity;
