@@ -51,6 +51,10 @@ namespace AdMobBuddy.Android
 		public void OnRewardedVideoAdClosed()
 		{
 			Console.WriteLine("Rewarded Video closed.");
+			if (null != OnVideoReward)
+			{
+				OnVideoReward(this, new RewardedVideoEventArgs(false));
+			}
 			Adapter.LoadRewardedVideoAd();
 		}
 
