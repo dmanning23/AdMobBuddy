@@ -1,10 +1,11 @@
-﻿using Google.MobileAds;
+﻿using Foundation;
+using Google.MobileAds;
 using System;
 using UIKit;
 
 namespace AdMobBuddy.iOS
 {
-	public class AdMobAdapter : IAdManager
+	public class AdMobAdapter : NSObject, IAdManager
 	{
 		#region Properties
 
@@ -183,7 +184,8 @@ namespace AdMobBuddy.iOS
 
 			if (RewardBasedVideoAd.SharedInstance.IsReady)
 			{
-				RewardBasedVideoAd.SharedInstance.PresentFromRootViewController(ViewController);
+				InvokeOnMainThread(() => RewardBasedVideoAd.SharedInstance.PresentFromRootViewController(ViewController));
+				Console.WriteLine("Reward based video ad is being displayed.");
 			}
 		}
 
