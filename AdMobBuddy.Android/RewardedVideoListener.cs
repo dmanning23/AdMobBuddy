@@ -71,5 +71,10 @@ namespace AdMobBuddy.Android
 				OnVideoReward(this, new RewardedVideoEventArgs(false));
 			}
 		}
+
+		public void OnRewardedVideoCompleted()
+		{
+			Console.WriteLine("Rewarded Video completed.");
+		}
 	}
 }
