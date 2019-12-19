@@ -4,6 +4,11 @@ namespace AdMobBuddy
 {
 	public interface IAdManager
 	{
+		/// <summary>
+		/// This flag is for whether the ads served should be child directed
+		/// </summary>
+		bool ChildDirected { get; set; }
+
 		void DisplayInterstitialAd();
 
 		void DisplayRewardedVideoAd();

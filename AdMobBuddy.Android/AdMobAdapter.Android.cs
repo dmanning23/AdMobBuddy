@@ -34,6 +34,8 @@ namespace AdMobBuddy.Android
 
 		public string TestDeviceID { get; set; }
 
+		public bool ChildDirected { get; set; }
+
 		Activity _activity;
 
 		public event EventHandler<RewardedVideoEventArgs> OnVideoReward;
@@ -45,9 +47,11 @@ namespace AdMobBuddy.Android
 		public AdMobAdapter(Activity activity, string appId,
 			string interstitialAdID,
 			string rewardedVideoAdID,
-			string testDeviceID = "")
+			string testDeviceID = "",
+			bool childDirected = false)
 		{
 			_activity = activity;
+			ChildDirected = childDirected;
 
 			AppID = appId;
 			InterstitialAdID = interstitialAdID;
@@ -117,7 +121,10 @@ namespace AdMobBuddy.Android
 
 		public void LoadRewardedVideoAd()
 		{
-			RewardedVideoAdHandler.LoadAd(RewardedVideoAdID, CreateBuilder().Build());
+			var builder = CreateBuilder();
+			builder.TagForChildDirectedTreatment(ChildDirected);
+			var adRequest = builder.Build();
+			RewardedVideoAdHandler.LoadAd(RewardedVideoAdID, adRequest);
 		}
 
 		public void DisplayRewardedVideoAd()

@@ -7,6 +7,8 @@ namespace AdMobBuddy.WindowsDX
 	/// </summary>
 	public class TestAdManager : IAdManager
 	{
+		public bool ChildDirected { get; set; }
+
 		public event EventHandler<RewardedVideoEventArgs> OnVideoReward;
 
 		public virtual void DisplayInterstitialAd()

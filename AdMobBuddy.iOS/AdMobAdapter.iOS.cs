@@ -17,11 +17,6 @@ namespace AdMobBuddy.iOS
 		#region IDs
 
 		/// <summary>
-		/// The App ID from AdMob.
-		/// </summary>
-		private string AppID { get; set; }
-
-		/// <summary>
 		/// ID of the AdMob Interstitial ad unit.
 		/// </summary>
 		public string InterstitialAdID { get; set; }
@@ -54,6 +49,20 @@ namespace AdMobBuddy.iOS
 
 		#endregion //Rewarded Video
 
+		private bool _childDirected;
+		public bool ChildDirected
+		{
+			get
+			{
+				return _childDirected;
+			}
+			set
+			{
+				_childDirected = value;
+				MobileAds.SharedInstance.RequestConfiguration.TagForChildDirectedTreatment(ChildDirected);
+			}
+		}
+
 		#endregion //Properties
 
 		#region Methods
@@ -63,20 +72,23 @@ namespace AdMobBuddy.iOS
 		/// </summary>
 		/// <param name="game">The host game to et the service container from</param>
 		/// <param name="location">The location to place the add on the screen</param>
-		public AdMobAdapter(UIViewController controller, string appId,
+		public AdMobAdapter(UIViewController controller,
 			string interstitialAdID,
 			string rewardedVideoAdID,
-			string testDeviceID = "")
+			string testDeviceID = "",
+			bool childDirected = false)
 		{
-			AppID = appId;
 			InterstitialAdID = interstitialAdID;
 			RewardedVideoAdID = rewardedVideoAdID;
 			TestDeviceID = testDeviceID;
+			_childDirected = childDirected;
 
 			ViewController = controller;
 
 			//Initialize AdMob
-			MobileAds.Configure(AppID);
+			MobileAds.SharedInstance.Start(Initialized);
+
+			MobileAds.SharedInstance.RequestConfiguration.TagForChildDirectedTreatment(ChildDirected);
 
 			//Preload an interstitial ad
 			LoadInterstitialAd();
@@ -91,6 +103,11 @@ namespace AdMobBuddy.iOS
 			RewardBasedVideoAd.SharedInstance.UserRewarded += DidRewardUser;
 
 			LoadRewardedVideoAd();
+		}
+
+		private void Initialized(InitializationStatus status)
+		{
+			Console.WriteLine($"AdMob Initialized");
 		}
 
 		#region Interstitial Ads
@@ -144,7 +161,7 @@ namespace AdMobBuddy.iOS
 			{
 				if (AdViewInterstitial != null && AdViewInterstitial.IsReady)
 				{
-					AdViewInterstitial.PresentFromRootViewController(ViewController);
+					AdViewInterstitial.Present(ViewController);
 					//Engine.Pause = true;
 				}
 			}
@@ -184,7 +201,7 @@ namespace AdMobBuddy.iOS
 
 			if (RewardBasedVideoAd.SharedInstance.IsReady)
 			{
-				InvokeOnMainThread(() => RewardBasedVideoAd.SharedInstance.PresentFromRootViewController(ViewController));
+				InvokeOnMainThread(() => RewardBasedVideoAd.SharedInstance.Present(ViewController));
 				Console.WriteLine("Reward based video ad is being displayed.");
 			}
 		}
