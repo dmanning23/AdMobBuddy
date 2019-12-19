@@ -1,7 +1,7 @@
 # AdMobBuddy
 A super easy to use library for adding AdMob ads to Xamarin.Android, Xamarin.iOS, and MonoGame apps.
 
-##Step one:
+## Step one:
 Add the nuget package located at:
 https://www.nuget.org/packages/AdMobBuddy/
 
