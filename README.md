@@ -14,7 +14,12 @@ Step two (iOS), initialize the library:
 (in MonoGame, add this in your UIApplicationDelegate class)
 ```
 //the first param is a UIViewController
-IAdManager ads = new AdMobAdapter(game.Services.GetService<UIViewController>(), "your AdMob app ID", "your AdMob interstitial ad unit ID", "your Admob rewarded video ad unit ID"
+IAdManager ads = new AdMobAdapter(game.Services.GetService<UIViewController>(), "your AdMob interstitial ad unit ID", "your Admob rewarded video ad unit ID"
+```
+Add your AdMob app ID to the info.plist file:
+```
+<key>GADApplicationIdentifier</key>
+<string>your AdMob app ID</string>
 ```
 
 Step three (interstitial), display an ad:
