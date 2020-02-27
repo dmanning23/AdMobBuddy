@@ -12,7 +12,7 @@ namespace AdMobBuddy.iOS
 		/// <summary>
 		/// Viewcontroller used to display interstitial ads.
 		/// </summary>
-		UIViewController ViewController;
+		readonly UIViewController ViewController;
 
 		#region IDs
 
@@ -118,10 +118,7 @@ namespace AdMobBuddy.iOS
 			AdViewInterstitial.AdReceived += (obj, e) =>
 			{
 				Console.WriteLine("Interstitial ad received and ready to be displayed.");
-				if (null != OnInterstitialLoaded)
-				{
-					OnInterstitialLoaded(this, new EventArgs());
-				}
+				OnInterstitialLoaded?.Invoke(this, new EventArgs());
 			};
 			AdViewInterstitial.ScreenDismissed += (obj, e) =>
 			{
@@ -208,10 +205,7 @@ namespace AdMobBuddy.iOS
 
 		public void DidRewardUser(object sender, RewardBasedVideoAdRewardEventArgs e)
 		{
-			if (null != OnVideoReward)
-			{
-				OnVideoReward(this, new RewardedVideoEventArgs(true));
-			}
+			OnVideoReward?.Invoke(this, new RewardedVideoEventArgs(true));
 		}
 
 		public void DidFailToLoad(object sender, RewardBasedVideoAdErrorEventArgs e)
@@ -222,10 +216,7 @@ namespace AdMobBuddy.iOS
 		public void DidReceiveAd(object sender, EventArgs e)
 		{
 			Console.WriteLine("Reward based video ad is received.");
-			if (null != OnRewardedVideoLoaded)
-			{
-				OnRewardedVideoLoaded(this, new EventArgs());
-			}
+			OnRewardedVideoLoaded?.Invoke(this, new EventArgs());
 		}
 
 		public void DidOpen(object sender, EventArgs e)
