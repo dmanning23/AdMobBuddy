@@ -73,8 +73,8 @@ namespace AdMobBuddy.iOS
 		/// <param name="game">The host game to et the service container from</param>
 		/// <param name="location">The location to place the add on the screen</param>
 		public AdMobAdapter(UIViewController controller,
-			string interstitialAdID,
-			string rewardedVideoAdID,
+			string interstitialAdID = "",
+			string rewardedVideoAdID = "",
 			string testDeviceID = "",
 			bool childDirected = false)
 		{
@@ -114,24 +114,26 @@ namespace AdMobBuddy.iOS
 
 		private void LoadInterstitialAd()
 		{
-			AdViewInterstitial = new Interstitial(InterstitialAdID);
-			AdViewInterstitial.AdReceived += (obj, e) =>
+			if (!string.IsNullOrEmpty(InterstitialAdID))
 			{
-				Console.WriteLine("Interstitial ad received and ready to be displayed.");
-				OnInterstitialLoaded?.Invoke(this, new EventArgs());
-			};
-			AdViewInterstitial.ScreenDismissed += (obj, e) =>
-			{
-				Console.WriteLine("Interstitial ad closed.");
-				LoadInterstitialAd();
-				//Engine.Pause = false;
-			};
+				AdViewInterstitial = new Interstitial(InterstitialAdID);
+				AdViewInterstitial.AdReceived += (obj, e) =>
+				{
+					Console.WriteLine("Interstitial ad received and ready to be displayed.");
+					OnInterstitialLoaded?.Invoke(this, new EventArgs());
+				};
+				AdViewInterstitial.ScreenDismissed += (obj, e) =>
+				{
+					Console.WriteLine("Interstitial ad closed.");
+					LoadInterstitialAd();
+				};
 
-			AdViewInterstitial.ReceiveAdFailed += (obj, e) =>
-			{
-				Console.WriteLine($"Interstitial ad failed to load, error: {e.Error.DebugDescription}");
-			};
-			AdViewInterstitial.LoadRequest(Request.GetDefaultRequest());
+				AdViewInterstitial.ReceiveAdFailed += (obj, e) =>
+				{
+					Console.WriteLine($"Interstitial ad failed to load, error: {e.Error.DebugDescription}");
+				};
+				AdViewInterstitial.LoadRequest(Request.GetDefaultRequest());
+			}
 		}
 
 		public void DisplayInterstitialAd()
@@ -174,7 +176,10 @@ namespace AdMobBuddy.iOS
 
 		public void LoadRewardedVideoAd()
 		{
-			RewardBasedVideoAd.SharedInstance.LoadRequest(Request.GetDefaultRequest(), RewardedVideoAdID);
+			if (!string.IsNullOrEmpty(RewardedVideoAdID))
+			{
+				RewardBasedVideoAd.SharedInstance.LoadRequest(Request.GetDefaultRequest(), RewardedVideoAdID);
+			}
 		}
 
 		public void DisplayRewardedVideoAd()

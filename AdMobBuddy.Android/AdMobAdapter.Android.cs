@@ -45,8 +45,8 @@ namespace AdMobBuddy.Android
 		#region Methods
 
 		public AdMobAdapter(Activity activity, string appId,
-			string interstitialAdID,
-			string rewardedVideoAdID,
+			string interstitialAdID = "",
+			string rewardedVideoAdID = "",
 			string testDeviceID = "",
 			bool childDirected = false)
 		{
@@ -60,18 +60,24 @@ namespace AdMobBuddy.Android
 
 			MobileAds.Initialize(_activity, AppID);
 
-			InterstitialAdHandler = new InterstitialAd(_activity);
-			InterstitialAdHandler.AdUnitId = InterstitialAdID;
+			if (!string.IsNullOrEmpty(interstitialAdID))
+			{
+				InterstitialAdHandler = new InterstitialAd(_activity);
+				InterstitialAdHandler.AdUnitId = InterstitialAdID;
 
-			interstitialListener = new InterstitialListener(this);
-			InterstitialAdHandler.AdListener = interstitialListener;
+				interstitialListener = new InterstitialListener(this);
+				InterstitialAdHandler.AdListener = interstitialListener;
+			}
 
-			RewardedVideoAdHandler = MobileAds.GetRewardedVideoAdInstance(_activity);
-			RewardedVideoAdHandler.UserId = AppID;
+			if (!string.IsNullOrEmpty(rewardedVideoAdID))
+			{
+				RewardedVideoAdHandler = MobileAds.GetRewardedVideoAdInstance(_activity);
+				RewardedVideoAdHandler.UserId = AppID;
 
-			videoRewardedListener = new RewardedVideoListener(this);
-			RewardedVideoAdHandler.RewardedVideoAdListener = videoRewardedListener;
-			videoRewardedListener.OnVideoReward += VideoReward;
+				videoRewardedListener = new RewardedVideoListener(this);
+				RewardedVideoAdHandler.RewardedVideoAdListener = videoRewardedListener;
+				videoRewardedListener.OnVideoReward += VideoReward;
+			}
 
 			LoadInterstitialAd();
 			LoadRewardedVideoAd();
@@ -91,21 +97,24 @@ namespace AdMobBuddy.Android
 
 		public void LoadInterstitialAd()
 		{
-			InterstitialAdHandler.LoadAd(CreateBuilder().Build());
+			InterstitialAdHandler?.LoadAd(CreateBuilder().Build());
 		}
 
 		public void DisplayInterstitialAd()
 		{
-			if (InterstitialAdHandler.IsLoaded)
+			if (null != InterstitialAdHandler && null != interstitialListener)
 			{
-				InterstitialAdLoaded(this, new EventArgs());
-			}
-			else
-			{
-				interstitialListener.OnInterstitialLoaded -= InterstitialAdLoaded;
-				interstitialListener.OnInterstitialLoaded += InterstitialAdLoaded;
+				if (InterstitialAdHandler.IsLoaded)
+				{
+					InterstitialAdLoaded(this, new EventArgs());
+				}
+				else
+				{
+					interstitialListener.OnInterstitialLoaded -= InterstitialAdLoaded;
+					interstitialListener.OnInterstitialLoaded += InterstitialAdLoaded;
 
-				LoadInterstitialAd();
+					LoadInterstitialAd();
+				}
 			}
 		}
 
@@ -124,28 +133,31 @@ namespace AdMobBuddy.Android
 			var builder = CreateBuilder();
 			builder.TagForChildDirectedTreatment(ChildDirected);
 			var adRequest = builder.Build();
-			RewardedVideoAdHandler.LoadAd(RewardedVideoAdID, adRequest);
+			RewardedVideoAdHandler?.LoadAd(RewardedVideoAdID, adRequest);
 		}
 
 		public void DisplayRewardedVideoAd()
 		{
-			if (RewardedVideoAdHandler.IsLoaded)
+			if (null != RewardedVideoAdHandler && null != videoRewardedListener)
 			{
-				RewardedVideoLoaded(this, new EventArgs());
-			}
-			else
-			{
-				videoRewardedListener.OnVideoLoaded -= RewardedVideoLoaded;
-				videoRewardedListener.OnVideoLoaded += RewardedVideoLoaded;
+				if (RewardedVideoAdHandler.IsLoaded)
+				{
+					RewardedVideoLoaded(this, new EventArgs());
+				}
+				else
+				{
+					videoRewardedListener.OnVideoLoaded -= RewardedVideoLoaded;
+					videoRewardedListener.OnVideoLoaded += RewardedVideoLoaded;
 
-				LoadRewardedVideoAd();
+					LoadRewardedVideoAd();
+				}
 			}
 		}
 
 		protected void RewardedVideoLoaded(object obj, EventArgs e)
 		{
 			videoRewardedListener.OnVideoLoaded -= RewardedVideoLoaded;
-			RewardedVideoAdHandler.Show();
+			RewardedVideoAdHandler?.Show();
 		}
 
 		protected void VideoReward(object obj, RewardedVideoEventArgs e)
