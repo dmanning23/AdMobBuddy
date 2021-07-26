@@ -1,7 +1,7 @@
 ﻿using Android.App;
 using Android.Gms.Ads;
-using Android.Gms.Ads.Mediation;
 using Android.Gms.Ads.Reward;
+using Android.Gms.Ads.Interstitial;
 using System;
 
 namespace AdMobBuddy.Android
@@ -58,10 +58,11 @@ namespace AdMobBuddy.Android
 			RewardedVideoAdID = rewardedVideoAdID;
 			TestDeviceID = testDeviceID;
 
-			MobileAds.Initialize(_activity, AppID);
+			MobileAds.Initialize(_activity);
 
 			if (!string.IsNullOrEmpty(interstitialAdID))
 			{
+				InterstitialAd.Load(_activity.ApplicationContext, interstitialAdID);
 				InterstitialAdHandler = new InterstitialAd(_activity);
 				InterstitialAdHandler.AdUnitId = InterstitialAdID;
 
@@ -88,7 +89,8 @@ namespace AdMobBuddy.Android
 			var builder = new AdRequest.Builder();
 			if (!string.IsNullOrEmpty(TestDeviceID))
 			{
-				builder.AddTestDevice(TestDeviceID);
+				//TODO: this test device functionality is deprecated?
+				//builder.AddTestDevice(TestDeviceID);
 			}
 			return builder;
 		}
@@ -97,7 +99,7 @@ namespace AdMobBuddy.Android
 
 		public void LoadInterstitialAd()
 		{
-			InterstitialAdHandler?.LoadAd(CreateBuilder().Build());
+			InterstitialAd.Load(_activity, InterstitialAdID, CreateBuilder().Build(), new InterstitialLoadCallback());
 		}
 
 		public void DisplayInterstitialAd()

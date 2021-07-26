@@ -1,5 +1,6 @@
 using Android.Gms.Ads;
 using System;
+using System.Diagnostics;
 
 namespace AdMobBuddy.Android
 {
@@ -22,32 +23,37 @@ namespace AdMobBuddy.Android
 
 		public override void OnAdLoaded()
 		{
-			Console.WriteLine("Interstitial ad received and ready to be displayed.");
+			Debug.WriteLine("Interstitial ad received and ready to be displayed.");
+
+			base.OnAdLoaded();
+
 			if (null != OnInterstitialLoaded)
 			{
 				OnInterstitialLoaded(this, new EventArgs());
 			}
-
-			base.OnAdLoaded();
 		}
 
 		public override void OnAdClosed()
 		{
-			Console.WriteLine("Interstitial ad closed.");
+			Debug.WriteLine("Interstitial ad closed.");
+
 			base.OnAdClosed();
+
 			Adapter.LoadInterstitialAd();
 		}
 
 		public override void OnAdOpened()
 		{
-			Console.WriteLine("Interstitial ad opened.");
+			Debug.WriteLine("Interstitial ad opened.");
+
 			base.OnAdOpened();
 		}
 
-		public override void OnAdFailedToLoad(int errorCode)
+		public override void OnAdFailedToLoad(LoadAdError error)
 		{
-			Console.WriteLine($"Interstitial ad failed to load, error code: {errorCode}");
-			base.OnAdFailedToLoad(errorCode);
+			Debug.WriteLine($"Interstitial ad failed to load, error code: {error.Code}, {error.Message}");
+
+			base.OnAdFailedToLoad(error);
 		}
 
 		#endregion //Methods
