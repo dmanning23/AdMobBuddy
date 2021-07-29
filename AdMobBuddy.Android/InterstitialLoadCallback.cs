@@ -1,7 +1,8 @@
 using Android.Gms.Ads;
+using Android.Gms.Ads.Interstitial;
+using Java.Lang;
 using System;
 using System.Diagnostics;
-using Android.Gms.Ads.Interstitial;
 
 namespace AdMobBuddy.Android
 {
@@ -11,43 +12,25 @@ namespace AdMobBuddy.Android
 
 		public event EventHandler OnInterstitialLoaded;
 
-		AdMobAdapter Adapter { get; set; }
+		private AdMobAdapter Adapter { get; set; }
 
 		#endregion //Properties
 
 		#region Methods
 
-		public InterstitialListener(AdMobAdapter adpater)
+		public InterstitialLoadCallback(AdMobAdapter adpater)
 		{
 			Adapter = adpater;
 		}
 
-		public override void OnAdLoaded()
+		public new void OnAdLoaded(Java.Lang.Object p0)
 		{
 			Debug.WriteLine("Interstitial ad received and ready to be displayed.");
 
-			base.OnAdLoaded();
+			base.OnAdLoaded(p0);
 
-			if (null != OnInterstitialLoaded)
-			{
-				OnInterstitialLoaded(this, new EventArgs());
-			}
-		}
-
-		public override void OnAdClosed()
-		{
-			Debug.WriteLine("Interstitial ad closed.");
-
-			base.OnAdClosed();
-
-			Adapter.LoadInterstitialAd();
-		}
-
-		public override void OnAdOpened()
-		{
-			Debug.WriteLine("Interstitial ad opened.");
-
-			base.OnAdOpened();
+			Adapter.OnInterstitialLoaded(p0);
+			OnInterstitialLoaded?.Invoke(p0, new EventArgs());
 		}
 
 		public override void OnAdFailedToLoad(LoadAdError error)

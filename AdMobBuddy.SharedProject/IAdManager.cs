@@ -9,6 +9,8 @@ namespace AdMobBuddy
 		/// </summary>
 		bool ChildDirected { get; set; }
 
+		void DisplayBannerAd();
+
 		void DisplayInterstitialAd();
 
 		void DisplayRewardedVideoAd();
