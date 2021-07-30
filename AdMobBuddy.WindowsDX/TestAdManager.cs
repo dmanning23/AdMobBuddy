@@ -11,6 +11,10 @@ namespace AdMobBuddy.WindowsDX
 
 		public event EventHandler<RewardedVideoEventArgs> OnVideoReward;
 
+		public virtual void DisplayBannerAd()
+		{
+		}
+
 		public virtual void DisplayInterstitialAd()
 		{
 		}

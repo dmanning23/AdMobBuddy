@@ -52,6 +52,7 @@
   <ItemGroup>
     <Compile Include="AdMobAdapter.iOS.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RewardedVideoListener.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

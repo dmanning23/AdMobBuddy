@@ -2,6 +2,9 @@
 using Android.Gms.Ads;
 using Android.Gms.Ads.Mediation;
 using Android.Gms.Ads.Reward;
+using Android.Util;
+using Android.Views;
+using Android.Widget;
 using System;
 
 namespace AdMobBuddy.Android
@@ -21,6 +24,11 @@ namespace AdMobBuddy.Android
 		/// The App ID from AdMob.
 		/// </summary>
 		private string AppID { get; set; }
+
+		/// <summary>
+		/// ID of the AdMob banner ad unit.
+		/// </summary>
+		public string BannerAdID { get; set; }
 
 		/// <summary>
 		/// ID of the AdMob Interstitial ad unit.
@@ -45,6 +53,7 @@ namespace AdMobBuddy.Android
 		#region Methods
 
 		public AdMobAdapter(Activity activity, string appId,
+			string bannerAdID = "",
 			string interstitialAdID = "",
 			string rewardedVideoAdID = "",
 			string testDeviceID = "",
@@ -54,6 +63,7 @@ namespace AdMobBuddy.Android
 			ChildDirected = childDirected;
 
 			AppID = appId;
+			BannerAdID = bannerAdID;
 			InterstitialAdID = interstitialAdID;
 			RewardedVideoAdID = rewardedVideoAdID;
 			TestDeviceID = testDeviceID;
@@ -92,6 +102,61 @@ namespace AdMobBuddy.Android
 			}
 			return builder;
 		}
+
+		#region Banner Ads
+
+		public void DisplayBannerAd()
+		{
+			//Check if there is a banner ad already in the view
+			var adView = _activity.FindViewById<AdView>(Resource.Id.banner_ad_id);
+			if (null == adView)
+			{
+				//Create the banner ad
+				adView = new AdView(_activity)
+				{
+					AdUnitId = BannerAdID,
+					Id = Resource.Id.banner_ad_id,
+					AdSize = GetAdSize(),
+				};
+
+				//create a relative layout
+				var layout = new RelativeLayout(_activity);
+				var adViewParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WrapContent, RelativeLayout.LayoutParams.WrapContent);
+				adViewParams.AddRule(LayoutRules.AlignParentBottom, 1);
+
+				//add the banner ad to the layout
+				layout.AddView(adView, adViewParams);
+
+				var rootView = _activity.Window.DecorView.RootView;
+				var viewGroup = rootView as ViewGroup;
+				var layoutParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MatchParent, ViewGroup.LayoutParams.MatchParent);
+				viewGroup.AddView(layout, layoutParams);
+			}
+
+			//Create the ad request
+			var request = CreateBuilder().Build();
+
+			//Load the ad into the banner
+			adView.LoadAd(request);
+		}
+
+		private AdSize GetAdSize()
+		{
+			// Step 2 - Determine the screen width (less decorations) to use for the ad width.
+			var display = _activity.WindowManager.DefaultDisplay;
+			var outMetrics = new DisplayMetrics();
+			display.GetMetrics(outMetrics);
+
+			float widthPixels = outMetrics.WidthPixels;
+			float density = outMetrics.Density;
+
+			int adWidth = (int)(widthPixels / density);
+
+			// Step 3 - Get adaptive ad size and return for setting on the ad view.
+			return AdSize.GetCurrentOrientationAnchoredAdaptiveBannerAdSize(_activity, adWidth);
+		}
+
+		#endregion //Banner Ads
 
 		#region Interstitial Ads
 
