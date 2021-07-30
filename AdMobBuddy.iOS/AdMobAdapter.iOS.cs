@@ -1,6 +1,7 @@
 ﻿using Foundation;
 using Google.MobileAds;
 using System;
+using System.Diagnostics;
 using UIKit;
 
 namespace AdMobBuddy.iOS
@@ -15,6 +16,8 @@ namespace AdMobBuddy.iOS
 		readonly UIViewController ViewController;
 
 		#region IDs
+
+		public string BannerAdID { get; set; }
 
 		/// <summary>
 		/// ID of the AdMob Interstitial ad unit.
@@ -43,7 +46,7 @@ namespace AdMobBuddy.iOS
 
 		#region Rewarded Video
 
-		private event EventHandler OnRewardedVideoLoaded;
+		RewardedVideoListener RewardedVideoListener { get; set; }
 
 		public event EventHandler<RewardedVideoEventArgs> OnVideoReward;
 
@@ -73,11 +76,13 @@ namespace AdMobBuddy.iOS
 		/// <param name="game">The host game to et the service container from</param>
 		/// <param name="location">The location to place the add on the screen</param>
 		public AdMobAdapter(UIViewController controller,
+			string bannerAdID = "",
 			string interstitialAdID = "",
 			string rewardedVideoAdID = "",
 			string testDeviceID = "",
 			bool childDirected = false)
 		{
+			BannerAdID = bannerAdID;
 			InterstitialAdID = interstitialAdID;
 			RewardedVideoAdID = rewardedVideoAdID;
 			TestDeviceID = testDeviceID;
@@ -93,22 +98,53 @@ namespace AdMobBuddy.iOS
 			//Preload an interstitial ad
 			LoadInterstitialAd();
 
-			//initialize rewarded video and preload a rewared video ad
-			RewardBasedVideoAd.SharedInstance.FailedToLoad += DidFailToLoad;
-			RewardBasedVideoAd.SharedInstance.AdReceived += DidReceiveAd;
-			RewardBasedVideoAd.SharedInstance.Opened += DidOpen;
-			RewardBasedVideoAd.SharedInstance.PlayingStarted += DidStartPlaying;
-			RewardBasedVideoAd.SharedInstance.Closed += DidClose;
-			RewardBasedVideoAd.SharedInstance.WillLeaveApplication += WillLeaveApplication;
-			RewardBasedVideoAd.SharedInstance.UserRewarded += DidRewardUser;
+			//Setup rewarded video and preload an ad
+			RewardedVideoListener = new RewardedVideoListener(this);
+			RewardedVideoListener.OnVideoReward += RewardedVideoListener_OnVideoReward;
+			RewardBasedVideoAd.SharedInstance.Delegate = RewardedVideoListener;
 
 			LoadRewardedVideoAd();
 		}
 
+		private void RewardedVideoListener_OnVideoReward(object sender, RewardedVideoEventArgs e)
+		{
+			OnVideoReward?.Invoke(sender, e);
+		}
+
 		private void Initialized(InitializationStatus status)
 		{
-			Console.WriteLine($"AdMob Initialized");
+			Debug.WriteLine($"AdMob Initialized");
 		}
+
+		#region Banner Ads
+
+		public void DisplayBannerAd()
+		{
+			var bannerView = new BannerView(BannerAdSize())
+			{
+				AdUnitId = BannerAdID,
+				RootViewController = this.ViewController
+			};
+
+			bannerView.TranslatesAutoresizingMaskIntoConstraints = false;
+
+			ViewController.View.AddSubview(bannerView);
+			bannerView.BottomAnchor.ConstraintEqualTo(ViewController.View.BottomAnchor, 0).Active = true;
+			bannerView.CenterXAnchor.ConstraintEqualTo(ViewController.View.CenterXAnchor, 0).Active = true;
+
+			bannerView.LoadRequest(Request.GetDefaultRequest());
+		}
+
+		private AdSize BannerAdSize()
+		{
+			var frame = ViewController.View.Frame;
+
+			var viewWidth = frame.Size.Width;
+
+			return AdSizeCons.GetCurrentOrientationAnchoredAdaptiveBannerAdSize(frame.Size);
+		}
+
+		#endregion //Banner Ads
 
 		#region Interstitial Ads
 
@@ -119,18 +155,18 @@ namespace AdMobBuddy.iOS
 				AdViewInterstitial = new Interstitial(InterstitialAdID);
 				AdViewInterstitial.AdReceived += (obj, e) =>
 				{
-					Console.WriteLine("Interstitial ad received and ready to be displayed.");
+					Debug.WriteLine("Interstitial ad received and ready to be displayed.");
 					OnInterstitialLoaded?.Invoke(this, new EventArgs());
 				};
 				AdViewInterstitial.ScreenDismissed += (obj, e) =>
 				{
-					Console.WriteLine("Interstitial ad closed.");
+					Debug.WriteLine("Interstitial ad closed.");
 					LoadInterstitialAd();
 				};
 
 				AdViewInterstitial.ReceiveAdFailed += (obj, e) =>
 				{
-					Console.WriteLine($"Interstitial ad failed to load, error: {e.Error.DebugDescription}");
+					Debug.WriteLine($"Interstitial ad failed to load, error: {e.Error.DebugDescription}");
 				};
 				AdViewInterstitial.LoadRequest(Request.GetDefaultRequest());
 			}
@@ -166,7 +202,7 @@ namespace AdMobBuddy.iOS
 			}
 			catch
 			{
-				Console.WriteLine($"There was an error showing the ad");
+				Debug.WriteLine($"There was an error showing the ad");
 			}
 		}
 
@@ -190,8 +226,8 @@ namespace AdMobBuddy.iOS
 			}
 			else
 			{
-				OnRewardedVideoLoaded -= RewardedVideoLoaded;
-				OnRewardedVideoLoaded += RewardedVideoLoaded;
+				RewardedVideoListener.OnRewardedVideoLoaded -= RewardedVideoLoaded;
+				RewardedVideoListener.OnRewardedVideoLoaded += RewardedVideoLoaded;
 
 				LoadRewardedVideoAd();
 			}
@@ -199,50 +235,13 @@ namespace AdMobBuddy.iOS
 
 		protected void RewardedVideoLoaded(object obj, EventArgs e)
 		{
-			OnRewardedVideoLoaded -= RewardedVideoLoaded;
+			RewardedVideoListener.OnRewardedVideoLoaded -= RewardedVideoLoaded;
 
 			if (RewardBasedVideoAd.SharedInstance.IsReady)
 			{
+				Debug.WriteLine("Reward based video ad is being displayed.");
 				InvokeOnMainThread(() => RewardBasedVideoAd.SharedInstance.Present(ViewController));
-				Console.WriteLine("Reward based video ad is being displayed.");
 			}
-		}
-
-		public void DidRewardUser(object sender, RewardBasedVideoAdRewardEventArgs e)
-		{
-			OnVideoReward?.Invoke(this, new RewardedVideoEventArgs(true));
-		}
-
-		public void DidFailToLoad(object sender, RewardBasedVideoAdErrorEventArgs e)
-		{
-			Console.WriteLine($"Reward based video ad failed to load with error: {e.Error.LocalizedDescription}.");
-		}
-
-		public void DidReceiveAd(object sender, EventArgs e)
-		{
-			Console.WriteLine("Reward based video ad is received.");
-			OnRewardedVideoLoaded?.Invoke(this, new EventArgs());
-		}
-
-		public void DidOpen(object sender, EventArgs e)
-		{
-			Console.WriteLine("Opened reward based video ad.");
-		}
-
-		public void DidStartPlaying(object sender, EventArgs e)
-		{
-			Console.WriteLine("Reward based video ad started playing.");
-		}
-
-		public void DidClose(object sender, EventArgs e)
-		{
-			Console.WriteLine("Reward based video ad is closed.");
-			LoadRewardedVideoAd();
-		}
-
-		public void WillLeaveApplication(object sender, EventArgs e)
-		{
-			Console.WriteLine("Rewarded Video clicked! Reward based video ad will leave application.");
 		}
 
 		#endregion //Rewarded Video Ads

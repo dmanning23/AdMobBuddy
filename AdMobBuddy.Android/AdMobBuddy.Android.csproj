@@ -251,6 +251,9 @@
   <ItemGroup>
     <Folder Include="Resources\drawable\" />
   </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\values\ids.xml" />
+  </ItemGroup>
   <Import Project="..\AdMobBuddy.SharedProject\AdMobMonoGame.SharedProject.projitems" Label="Shared" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
