@@ -5,9 +5,6 @@ using Android.Gms.Ads.Rewarded;
 using Android.Util;
 using Android.Views;
 using Android.Widget;
-using Android.Util;
-using Android.Views;
-using Android.Widget;
 using System;
 
 namespace AdMobBuddy.Android
@@ -15,11 +12,6 @@ namespace AdMobBuddy.Android
 	public class AdMobAdapter : IAdManager
 	{
 		#region Properties
-
-		/// <summary>
-		/// The App ID from AdMob.
-		/// </summary>
-		private string AppID { get; set; }
 
 		/// <summary>
 		/// ID of the AdMob banner ad unit.
@@ -70,7 +62,7 @@ namespace AdMobBuddy.Android
 
 		#region Methods
 
-		public AdMobAdapter(Activity activity, string appId,
+		public AdMobAdapter(Activity activity, 
 			string bannerAdID = "",
 			string interstitialAdID = "",
 			string rewardedVideoAdID = "",
@@ -80,7 +72,6 @@ namespace AdMobBuddy.Android
 			Activity = activity;
 			ChildDirected = childDirected;
 
-			AppID = appId;
 			BannerAdID = bannerAdID;
 			InterstitialAdID = interstitialAdID;
 			RewardedVideoAdID = rewardedVideoAdID;

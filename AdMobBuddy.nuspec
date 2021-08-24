@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
 	<metadata>
 		<id>AdMobBuddy</id>
-		<version>1.0.35</version>
+		<version>1.0.37</version>
 		<title>AdMobBuddy</title>
 		<authors>dmanning23</authors>
 		<owners>dmanning23</owners>
@@ -18,7 +18,7 @@
 
 			<!--Xamarin.Android-->
 			<group targetFramework="MonoAndroid10">
-				<dependency id="Xamarin.GooglePlayServices.Ads.Lite" version="120.0"/>
+				<dependency id="Xamarin.GooglePlayServices.Ads.Lite" version="60.1142"/>
 			</group>
 
 			<!--Xamarin.iOS Unified-->

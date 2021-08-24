@@ -1,6 +1,5 @@
 using Android.Gms.Ads;
 using Android.Gms.Ads.Interstitial;
-using Java.Lang;
 using System;
 using System.Diagnostics;
 
@@ -23,7 +22,7 @@ namespace AdMobBuddy.Android
 			Adapter = adpater;
 		}
 
-		public new void OnAdLoaded(Java.Lang.Object p0)
+		public override void OnAdLoaded(Java.Lang.Object p0)
 		{
 			Debug.WriteLine("Interstitial ad received and ready to be displayed.");
 

@@ -20,7 +20,7 @@ namespace AdMobBuddy.Android
 			Adapter = adpater;
 		}
 
-		public new void OnAdLoaded(Java.Lang.Object p0)
+		public override void OnAdLoaded(Java.Lang.Object p0)
 		{
 			Debug.WriteLine("Rewarded Video ad received and ready to be displayed.");
 
@@ -36,66 +36,5 @@ namespace AdMobBuddy.Android
 
 			base.OnAdFailedToLoad(error);
 		}
-
-		/*
-
-		public void OnRewardedVideoAdLoaded()
-		{
-			Console.WriteLine("Rewarded Video loaded.");
-			if (null != OnVideoLoaded)
-			{
-				OnVideoLoaded(this, new EventArgs());
-			}
-		}
-
-		public void OnRewardedVideoAdOpened()
-		{
-			Console.WriteLine("Rewarded Video opened.");
-		}
-
-		public void OnRewardedVideoStarted()
-		{
-			Console.WriteLine("Rewarded Video started.");
-		}
-
-		public void OnRewarded(IRewardItem reward)
-		{
-			Console.WriteLine("Rewarded Video completed.");
-			if (null != OnVideoReward)
-			{
-				OnVideoReward(this, new RewardedVideoEventArgs(true));
-			}
-		}
-
-		public void OnRewardedVideoAdClosed()
-		{
-			Console.WriteLine("Rewarded Video closed.");
-			if (null != OnVideoReward)
-			{
-				OnVideoReward(this, new RewardedVideoEventArgs(false));
-			}
-			Adapter.LoadRewardedVideoAd();
-		}
-
-		public void OnRewardedVideoAdLeftApplication()
-		{
-			Console.WriteLine("Rewarded Video clicked!");
-		}
-
-		public void OnRewardedVideoAdFailedToLoad(int errorCode)
-		{
-			Console.WriteLine($"Rewarded Video failed to load, error code: {errorCode}");
-			if (null != OnVideoReward)
-			{
-				OnVideoReward(this, new RewardedVideoEventArgs(false));
-			}
-		}
-
-		public void OnRewardedVideoCompleted()
-		{
-			Console.WriteLine("Rewarded Video completed.");
-		}
-
-		*/
 	}
 }
