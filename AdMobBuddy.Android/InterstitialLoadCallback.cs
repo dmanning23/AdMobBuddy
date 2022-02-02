@@ -5,7 +5,7 @@ using System.Diagnostics;
 
 namespace AdMobBuddy.Android
 {
-	internal class InterstitialLoadCallback : InterstitialAdLoadCallback
+	internal class InterstitialLoadCallback : InterstitialCallback
 	{
 		#region Properties
 
@@ -22,14 +22,14 @@ namespace AdMobBuddy.Android
 			Adapter = adpater;
 		}
 
-		public override void OnAdLoaded(Java.Lang.Object p0)
+		public override void OnAdLoaded(InterstitialAd interstitialAd)
 		{
 			Debug.WriteLine("Interstitial ad received and ready to be displayed.");
 
-			base.OnAdLoaded(p0);
+			base.OnAdLoaded(interstitialAd);
 
-			Adapter.OnInterstitialLoaded(p0);
-			OnInterstitialLoaded?.Invoke(p0, new EventArgs());
+			Adapter.OnInterstitialLoaded(interstitialAd);
+			OnInterstitialLoaded?.Invoke(interstitialAd, new EventArgs());
 		}
 
 		public override void OnAdFailedToLoad(LoadAdError error)

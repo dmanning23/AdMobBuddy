@@ -5,7 +5,7 @@ using System.Diagnostics;
 
 namespace AdMobBuddy.Android
 {
-	internal class RewardedVideoLoadCallback : RewardedAdLoadCallback
+	internal class RewardedVideoLoadCallback : RewardedVideoCallback
 	{
 		#region Properties
 
@@ -20,14 +20,14 @@ namespace AdMobBuddy.Android
 			Adapter = adpater;
 		}
 
-		public override void OnAdLoaded(Java.Lang.Object p0)
+		public override void OnAdLoaded(RewardedAd rewardedAd)
 		{
 			Debug.WriteLine("Rewarded Video ad received and ready to be displayed.");
 
-			base.OnAdLoaded(p0);
+			base.OnAdLoaded(rewardedAd);
 
-			Adapter.OnRewardedVideoLoaded(p0);
-			OnRewardedVideoLoaded?.Invoke(p0, new EventArgs());
+			Adapter.OnRewardedVideoLoaded(rewardedAd);
+			OnRewardedVideoLoaded?.Invoke(rewardedAd, new EventArgs());
 		}
 
 		public override void OnAdFailedToLoad(LoadAdError error)

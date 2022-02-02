@@ -171,9 +171,9 @@ namespace AdMobBuddy.Android
 			}
 		}
 
-		public void OnInterstitialLoaded(Java.Lang.Object p0)
+		public void OnInterstitialLoaded(InterstitialAd interstitialAd)
 		{
-			InterstitialAd = p0 as InterstitialAd;
+			InterstitialAd = interstitialAd;
 			if (null != InterstitialAd)
 			{
 				InterstitialAd.FullScreenContentCallback = interstitialListener;
@@ -213,9 +213,9 @@ namespace AdMobBuddy.Android
 			}
 		}
 
-		public void OnRewardedVideoLoaded(Java.Lang.Object p0)
+		public void OnRewardedVideoLoaded(RewardedAd rewardedAd)
 		{
-			RewardedAd = p0 as RewardedAd;
+			RewardedAd = rewardedAd;
 			if (null != RewardedAd)
 			{
 				RewardedAd.FullScreenContentCallback = rewardedVideoListener;
@@ -224,12 +224,12 @@ namespace AdMobBuddy.Android
 
 		public void DisplayRewardedVideoAd()
 		{
-			//RewardedVideoLoadCallback-=
 			if (null != RewardedAd)
 			{
 				rewardListener.OnVideoReward -= VideoReward;
 				rewardListener.OnVideoReward += VideoReward;
 				RewardedAd.Show(Activity, rewardListener);
+				RewardedAd = null;
 			}
 			else
 			{
