@@ -1,7 +1,7 @@
 ﻿using Android.App;
 using Android.Gms.Ads;
-using Android.Gms.Ads.Mediation;
-using Android.Gms.Ads.Reward;
+using Android.Gms.Ads.Interstitial;
+using Android.Gms.Ads.Rewarded;
 using Android.Util;
 using Android.Views;
 using Android.Widget;
@@ -12,18 +12,6 @@ namespace AdMobBuddy.Android
 	public class AdMobAdapter : IAdManager
 	{
 		#region Properties
-
-		protected InterstitialAd InterstitialAdHandler { get; set; }
-
-		protected IRewardedVideoAd RewardedVideoAdHandler { get; set; }
-
-		InterstitialListener interstitialListener;
-		RewardedVideoListener videoRewardedListener;
-
-		/// <summary>
-		/// The App ID from AdMob.
-		/// </summary>
-		private string AppID { get; set; }
 
 		/// <summary>
 		/// ID of the AdMob banner ad unit.
@@ -42,63 +30,78 @@ namespace AdMobBuddy.Android
 
 		public string TestDeviceID { get; set; }
 
-		public bool ChildDirected { get; set; }
+		public bool ChildDirected { get; set; } = false;
 
-		Activity _activity;
+		public Activity Activity { get; set; }
 
 		public event EventHandler<RewardedVideoEventArgs> OnVideoReward;
+
+		/// <summary>
+		/// The insterstitial ad that has been loaded.
+		/// Will be null until the ad finishes loading, and also after the user views the ad.
+		/// </summary>
+		private InterstitialAd InterstitialAd { get; set; }
+
+		/// <summary>
+		/// Object that listens for insterstitial ads to be loaded
+		/// </summary>
+		private InterstitialLoadCallback interstitialLoadCallback;
+
+		/// <summary>
+		/// Object that listens for user interactions with insterstitial ads
+		/// </summary>
+		private AdCallback interstitialListener;
+
+		private RewardedAd RewardedAd { get; set; }
+
+		private RewardedVideoLoadCallback rewardedVideoLoadCallback;
+		private AdCallback rewardedVideoListener;
+		private RewardListener rewardListener;
 
 		#endregion //Properties
 
 		#region Methods
 
-		public AdMobAdapter(Activity activity, string appId,
+		public AdMobAdapter(Activity activity, 
 			string bannerAdID = "",
 			string interstitialAdID = "",
 			string rewardedVideoAdID = "",
 			string testDeviceID = "",
 			bool childDirected = false)
 		{
-			_activity = activity;
+			Activity = activity;
 			ChildDirected = childDirected;
 
-			AppID = appId;
 			BannerAdID = bannerAdID;
 			InterstitialAdID = interstitialAdID;
 			RewardedVideoAdID = rewardedVideoAdID;
 			TestDeviceID = testDeviceID;
 
-			MobileAds.Initialize(_activity, AppID);
-
 			if (!string.IsNullOrEmpty(interstitialAdID))
 			{
-				InterstitialAdHandler = new InterstitialAd(_activity);
-				InterstitialAdHandler.AdUnitId = InterstitialAdID;
-
-				interstitialListener = new InterstitialListener(this);
-				InterstitialAdHandler.AdListener = interstitialListener;
+				interstitialLoadCallback = new InterstitialLoadCallback(this);
+				interstitialListener = new AdCallback(this);
 			}
 
 			if (!string.IsNullOrEmpty(rewardedVideoAdID))
 			{
-				RewardedVideoAdHandler = MobileAds.GetRewardedVideoAdInstance(_activity);
-				RewardedVideoAdHandler.UserId = AppID;
-
-				videoRewardedListener = new RewardedVideoListener(this);
-				RewardedVideoAdHandler.RewardedVideoAdListener = videoRewardedListener;
-				videoRewardedListener.OnVideoReward += VideoReward;
+				rewardedVideoLoadCallback = new RewardedVideoLoadCallback(this);
+				rewardedVideoListener = new AdCallback(this);
+				rewardListener = new RewardListener();
 			}
 
-			LoadInterstitialAd();
-			LoadRewardedVideoAd();
+			MobileAds.Initialize(Activity, new InitializationListener(this));
 		}
 
 		private AdRequest.Builder CreateBuilder()
 		{
 			var builder = new AdRequest.Builder();
+			//builder
 			if (!string.IsNullOrEmpty(TestDeviceID))
 			{
-				builder.AddTestDevice(TestDeviceID);
+				//TODO: this test device functionality is deprecated?
+				//builder.AddTestDevice(TestDeviceID);
+				//builder.TagForChildDirectedTreatment(ChildDirected);
 			}
 			return builder;
 		}
@@ -108,11 +111,11 @@ namespace AdMobBuddy.Android
 		public void DisplayBannerAd()
 		{
 			//Check if there is a banner ad already in the view
-			var adView = _activity.FindViewById<AdView>(Resource.Id.banner_ad_id);
+			var adView = Activity.FindViewById<AdView>(Resource.Id.banner_ad_id);
 			if (null == adView)
 			{
 				//Create the banner ad
-				adView = new AdView(_activity)
+				adView = new AdView(Activity)
 				{
 					AdUnitId = BannerAdID,
 					Id = Resource.Id.banner_ad_id,
@@ -120,14 +123,14 @@ namespace AdMobBuddy.Android
 				};
 
 				//create a relative layout
-				var layout = new RelativeLayout(_activity);
+				var layout = new RelativeLayout(Activity);
 				var adViewParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WrapContent, RelativeLayout.LayoutParams.WrapContent);
 				adViewParams.AddRule(LayoutRules.AlignParentBottom, 1);
 
 				//add the banner ad to the layout
 				layout.AddView(adView, adViewParams);
 
-				var rootView = _activity.Window.DecorView.RootView;
+				var rootView = Activity.Window.DecorView.RootView;
 				var viewGroup = rootView as ViewGroup;
 				var layoutParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MatchParent, ViewGroup.LayoutParams.MatchParent);
 				viewGroup.AddView(layout, layoutParams);
@@ -143,7 +146,7 @@ namespace AdMobBuddy.Android
 		private AdSize GetAdSize()
 		{
 			// Step 2 - Determine the screen width (less decorations) to use for the ad width.
-			var display = _activity.WindowManager.DefaultDisplay;
+			var display = Activity.WindowManager.DefaultDisplay;
 			var outMetrics = new DisplayMetrics();
 			display.GetMetrics(outMetrics);
 
@@ -153,7 +156,7 @@ namespace AdMobBuddy.Android
 			int adWidth = (int)(widthPixels / density);
 
 			// Step 3 - Get adaptive ad size and return for setting on the ad view.
-			return AdSize.GetCurrentOrientationAnchoredAdaptiveBannerAdSize(_activity, adWidth);
+			return AdSize.GetCurrentOrientationAnchoredAdaptiveBannerAdSize(Activity, adWidth);
 		}
 
 		#endregion //Banner Ads
@@ -162,75 +165,90 @@ namespace AdMobBuddy.Android
 
 		public void LoadInterstitialAd()
 		{
-			InterstitialAdHandler?.LoadAd(CreateBuilder().Build());
+			if (!string.IsNullOrEmpty(InterstitialAdID))
+			{
+				InterstitialAd.Load(Activity, InterstitialAdID, CreateBuilder().Build(), interstitialLoadCallback);
+			}
+		}
+
+		public void OnInterstitialLoaded(InterstitialAd interstitialAd)
+		{
+			InterstitialAd = interstitialAd;
+			if (null != InterstitialAd)
+			{
+				InterstitialAd.FullScreenContentCallback = interstitialListener;
+			}
 		}
 
 		public void DisplayInterstitialAd()
 		{
-			if (null != InterstitialAdHandler && null != interstitialListener)
+			if (null != InterstitialAd)
 			{
-				if (InterstitialAdHandler.IsLoaded)
-				{
-					InterstitialAdLoaded(this, new EventArgs());
-				}
-				else
-				{
-					interstitialListener.OnInterstitialLoaded -= InterstitialAdLoaded;
-					interstitialListener.OnInterstitialLoaded += InterstitialAdLoaded;
-
-					LoadInterstitialAd();
-				}
+				InterstitialAd.Show(Activity);
+			}
+			else
+			{
+				//Sign up for the ad loaded event to immediately show the ad once it loads
+				interstitialLoadCallback.OnInterstitialLoaded -= ShowInterstitialAdWhenLoaded;
+				interstitialLoadCallback.OnInterstitialLoaded += ShowInterstitialAdWhenLoaded;
+				LoadInterstitialAd();
 			}
 		}
 
-		private void InterstitialAdLoaded(object sender, EventArgs e)
+		private void ShowInterstitialAdWhenLoaded(object sender, EventArgs e)
 		{
-			interstitialListener.OnInterstitialLoaded -= InterstitialAdLoaded;
-			InterstitialAdHandler.Show();
+			interstitialLoadCallback.OnInterstitialLoaded -= ShowInterstitialAdWhenLoaded;
+			DisplayInterstitialAd();
 		}
 
 		#endregion //Interstitial Ads
 
 		#region Rewarded Video
 
-		public void LoadRewardedVideoAd()
+		public void LoadRewardedVideo()
 		{
-			var builder = CreateBuilder();
-			builder.TagForChildDirectedTreatment(ChildDirected);
-			var adRequest = builder.Build();
-			RewardedVideoAdHandler?.LoadAd(RewardedVideoAdID, adRequest);
+			if (!string.IsNullOrEmpty(RewardedVideoAdID))
+			{
+				RewardedAd.Load(Activity, RewardedVideoAdID, CreateBuilder().Build(), rewardedVideoLoadCallback);
+			}
+		}
+
+		public void OnRewardedVideoLoaded(RewardedAd rewardedAd)
+		{
+			RewardedAd = rewardedAd;
+			if (null != RewardedAd)
+			{
+				RewardedAd.FullScreenContentCallback = rewardedVideoListener;
+			}
 		}
 
 		public void DisplayRewardedVideoAd()
 		{
-			if (null != RewardedVideoAdHandler && null != videoRewardedListener)
+			if (null != RewardedAd)
 			{
-				if (RewardedVideoAdHandler.IsLoaded)
-				{
-					RewardedVideoLoaded(this, new EventArgs());
-				}
-				else
-				{
-					videoRewardedListener.OnVideoLoaded -= RewardedVideoLoaded;
-					videoRewardedListener.OnVideoLoaded += RewardedVideoLoaded;
-
-					LoadRewardedVideoAd();
-				}
+				rewardListener.OnVideoReward -= VideoReward;
+				rewardListener.OnVideoReward += VideoReward;
+				RewardedAd.Show(Activity, rewardListener);
+				RewardedAd = null;
+			}
+			else
+			{
+				//Sign up for the ad loaded event to immediately show the ad once it loads
+				rewardedVideoLoadCallback.OnRewardedVideoLoaded -= ShowRewardedVideoWhenLoaded;
+				rewardedVideoLoadCallback.OnRewardedVideoLoaded += ShowRewardedVideoWhenLoaded;
+				LoadRewardedVideo();
 			}
 		}
 
-		protected void RewardedVideoLoaded(object obj, EventArgs e)
+		private void ShowRewardedVideoWhenLoaded(object sender, EventArgs e)
 		{
-			videoRewardedListener.OnVideoLoaded -= RewardedVideoLoaded;
-			RewardedVideoAdHandler?.Show();
+			rewardedVideoLoadCallback.OnRewardedVideoLoaded -= ShowRewardedVideoWhenLoaded;
+			DisplayRewardedVideoAd();
 		}
 
 		protected void VideoReward(object obj, RewardedVideoEventArgs e)
 		{
-			if (null != OnVideoReward)
-			{
-				OnVideoReward(obj, e);
-			}
+			OnVideoReward?.Invoke(obj, e);
 		}
 
 		#endregion //Rewarded Video
