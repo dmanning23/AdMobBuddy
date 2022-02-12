@@ -16,5 +16,13 @@ namespace AdMobBuddy
 		void DisplayRewardedVideoAd();
 
 		event EventHandler<RewardedVideoEventArgs> OnVideoReward;
-	}
+
+        event EventHandler OnRewardedVideoDismissed;
+
+        event EventHandler OnRewardedVideoFailed;
+
+        event EventHandler OnInterstitialDismissed;
+
+        event EventHandler OnInterstitialFailed;
+    }
 }
