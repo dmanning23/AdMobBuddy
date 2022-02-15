@@ -5,7 +5,10 @@ using System.Diagnostics;
 namespace AdMobBuddy.Android
 {
 	internal class AdCallback : FullScreenContentCallback
-	{
+    {
+
+        public event EventHandler AdFailed;
+        public event EventHandler AdDismissed;
 		#region Properties
 
 		private AdMobAdapter Adapter { get; set; }
@@ -22,7 +25,7 @@ namespace AdMobBuddy.Android
 		public override void OnAdFailedToShowFullScreenContent(AdError error)
 		{
 			Debug.WriteLine($"Ad failed to load, error code: {error.Code}, {error.Message}");
-
+			AdFailed?.Invoke(this, EventArgs.Empty);
 			base.OnAdFailedToShowFullScreenContent(error);
 		}
 
@@ -31,9 +34,8 @@ namespace AdMobBuddy.Android
 			Debug.WriteLine("Ad closed.");
 
 			base.OnAdDismissedFullScreenContent();
-
-			Adapter.LoadInterstitialAd();
-		}
+            AdDismissed?.Invoke(this, EventArgs.Empty);
+        }
 
 		public override void OnAdShowedFullScreenContent()
 		{

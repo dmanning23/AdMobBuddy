@@ -11,7 +11,19 @@ namespace AdMobBuddy.WindowsDX
 
 		public event EventHandler<RewardedVideoEventArgs> OnVideoReward;
 
-		public virtual void DisplayBannerAd()
+        /// <inheritdoc />
+        public event EventHandler OnRewardedVideoDismissed;
+
+        /// <inheritdoc />
+        public event EventHandler OnRewardedVideoFailed;
+
+        /// <inheritdoc />
+        public event EventHandler OnInterstitialDismissed;
+
+        /// <inheritdoc />
+        public event EventHandler OnInterstitialFailed;
+
+        public virtual void DisplayBannerAd()
 		{
 		}
 
