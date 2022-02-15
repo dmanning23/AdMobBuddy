@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="AdMobBuddyExample.Android" android:versionCode="1" android:versionName="1.0" android:installLocation="auto">
+	<uses-sdk android:targetSdkVersion="28" android:minSdkVersion="16" />
+	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+	<uses-permission android:name="android.permission.INTERNET" />
+	<application android:label="AdMobBuddyExample.Android" android:icon="@drawable/Icon">
+		<meta-data android:name="com.google.android.gms.ads.APPLICATION_ID" android:value="ca-app-pub-8228485892439970~1803261097" />
+	</application>
+</manifest>
