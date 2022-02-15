@@ -61,4 +61,4 @@ ads.DisplayRewardedVideoAd();
 ## Step six:
 profit
 
-If you still have any questions, there is a full-blown functioning app example at: https://github.com/dmanning23/AdMobBuddy/Sample
+If you still have any questions, there is a full-blown functioning app example at: https://github.com/dmanning23/AdMobBuddy/tree/master/Sample
