@@ -56,9 +56,6 @@
     <AndroidLinkMode>SdkOnly</AndroidLinkMode>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AdMobBuddy.Android, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\AdMobBuddy.1.0.39\lib\MonoAndroid10\AdMobBuddy.Android.dll</HintPath>
-    </Reference>
     <Reference Include="Cyotek.Drawing.BitmapFont, Version=1.0.0.0, Culture=neutral, PublicKeyToken=58daa28b0b2de221, processorArchitecture=MSIL">
       <HintPath>..\packages\Cyotek.Drawing.BitmapFont.2.0.4\lib\netstandard2.1\Cyotek.Drawing.BitmapFont.dll</HintPath>
     </Reference>
@@ -403,6 +400,12 @@
     <None Include="Properties\AndroidManifest.xml">
       <SubType>Designer</SubType>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\AdMobBuddy.Android\AdMobBuddy.Android.csproj">
+      <Project>{20e0368a-bf3f-44d3-b494-537002845005}</Project>
+      <Name>AdMobBuddy.Android</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="..\AdMobBuddyExample.SharedProject\AdMobBuddyExample.SharedProject.projitems" Label="Shared" />
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />

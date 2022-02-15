@@ -17,12 +17,12 @@ namespace AdMobBuddy
 
 		event EventHandler<RewardedVideoEventArgs> OnVideoReward;
 
-        event EventHandler OnRewardedVideoDismissed;
+		event EventHandler OnRewardedVideoDismissed;
 
-        event EventHandler OnRewardedVideoFailed;
+		event EventHandler OnRewardedVideoFailed;
 
-        event EventHandler OnInterstitialDismissed;
+		event EventHandler OnInterstitialDismissed;
 
-        event EventHandler OnInterstitialFailed;
-    }
+		event EventHandler OnInterstitialFailed;
+	}
 }

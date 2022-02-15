@@ -36,10 +36,10 @@ namespace AdMobBuddy.Android
 
 		public event EventHandler<RewardedVideoEventArgs> OnVideoReward;
 
-        public event EventHandler OnRewardedVideoDismissed;
-        public event EventHandler OnRewardedVideoFailed;
-        public event EventHandler OnInterstitialDismissed;
-        public event EventHandler OnInterstitialFailed;
+		public event EventHandler OnRewardedVideoDismissed;
+		public event EventHandler OnRewardedVideoFailed;
+		public event EventHandler OnInterstitialDismissed;
+		public event EventHandler OnInterstitialFailed;
 
 		/// <summary>
 		/// The insterstitial ad that has been loaded.
@@ -67,7 +67,7 @@ namespace AdMobBuddy.Android
 
 		#region Methods
 
-		public AdMobAdapter(Activity activity, 
+		public AdMobAdapter(Activity activity,
 			string bannerAdID = "",
 			string interstitialAdID = "",
 			string rewardedVideoAdID = "",
@@ -86,8 +86,8 @@ namespace AdMobBuddy.Android
 			{
 				interstitialLoadCallback = new InterstitialLoadCallback(this);
 				interstitialListener = new AdCallback(this);
-                interstitialListener.AdDismissed += InterstitialListener_AdDismissed;
-                interstitialListener.AdFailed += InterstitialListener_AdFailed;
+				interstitialListener.AdDismissed += InterstitialListener_AdDismissed;
+				interstitialListener.AdFailed += InterstitialListener_AdFailed;
 			}
 
 			if (!string.IsNullOrEmpty(rewardedVideoAdID))
@@ -95,15 +95,15 @@ namespace AdMobBuddy.Android
 				rewardedVideoLoadCallback = new RewardedVideoLoadCallback(this);
 				rewardedVideoListener = new AdCallback(this);
 				rewardListener = new RewardListener();
-                rewardedVideoListener.AdFailed += RewardedVideoListener_AdFailed;
-                rewardedVideoListener.AdDismissed += RewardedVideoListener_AdDismissed;
+				rewardedVideoListener.AdFailed += RewardedVideoListener_AdFailed;
+				rewardedVideoListener.AdDismissed += RewardedVideoListener_AdDismissed;
 			}
 
 			MobileAds.Initialize(Activity, new InitializationListener(this));
 		}
 
 
-        private AdRequest.Builder CreateBuilder()
+		private AdRequest.Builder CreateBuilder()
 		{
 			var builder = new AdRequest.Builder();
 			//builder
@@ -174,17 +174,17 @@ namespace AdMobBuddy.Android
 		#region Interstitial Ads
 
 
-        private void InterstitialListener_AdFailed(object sender, EventArgs e)
-        {
-            LoadInterstitialAd();
-            OnInterstitialFailed?.Invoke(this, EventArgs.Empty);
-        }
+		private void InterstitialListener_AdFailed(object sender, EventArgs e)
+		{
+			LoadInterstitialAd();
+			OnInterstitialFailed?.Invoke(this, EventArgs.Empty);
+		}
 
-        private void InterstitialListener_AdDismissed(object sender, EventArgs e)
-        {
-            LoadInterstitialAd();
-            OnInterstitialDismissed?.Invoke(this, EventArgs.Empty);
-        }
+		private void InterstitialListener_AdDismissed(object sender, EventArgs e)
+		{
+			LoadInterstitialAd();
+			OnInterstitialDismissed?.Invoke(this, EventArgs.Empty);
+		}
 
 		public void LoadInterstitialAd()
 		{
@@ -229,17 +229,17 @@ namespace AdMobBuddy.Android
 		#region Rewarded Video
 
 
-        private void RewardedVideoListener_AdDismissed(object sender, EventArgs e)
-        {
-            LoadRewardedVideo();
-            OnRewardedVideoDismissed?.Invoke(this, EventArgs.Empty);
-        }
+		private void RewardedVideoListener_AdDismissed(object sender, EventArgs e)
+		{
+			LoadRewardedVideo();
+			OnRewardedVideoDismissed?.Invoke(this, EventArgs.Empty);
+		}
 
-        private void RewardedVideoListener_AdFailed(object sender, EventArgs e)
-        {
-            LoadRewardedVideo();
-            OnRewardedVideoFailed?.Invoke(this, EventArgs.Empty);
-        }
+		private void RewardedVideoListener_AdFailed(object sender, EventArgs e)
+		{
+			LoadRewardedVideo();
+			OnRewardedVideoFailed?.Invoke(this, EventArgs.Empty);
+		}
 
 		public void LoadRewardedVideo()
 		{

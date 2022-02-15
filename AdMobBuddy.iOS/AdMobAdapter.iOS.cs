@@ -50,19 +50,19 @@ namespace AdMobBuddy.iOS
 
 		public event EventHandler<RewardedVideoEventArgs> OnVideoReward;
 
-        /// <inheritdoc />
-        public event EventHandler OnRewardedVideoDismissed;
+		/// <inheritdoc />
+		public event EventHandler OnRewardedVideoDismissed;
 
-        /// <inheritdoc />
-        public event EventHandler OnRewardedVideoFailed;
+		/// <inheritdoc />
+		public event EventHandler OnRewardedVideoFailed;
 
-        /// <inheritdoc />
-        public event EventHandler OnInterstitialDismissed;
+		/// <inheritdoc />
+		public event EventHandler OnInterstitialDismissed;
 
-        /// <inheritdoc />
-        public event EventHandler OnInterstitialFailed;
+		/// <inheritdoc />
+		public event EventHandler OnInterstitialFailed;
 
-        #endregion //Rewarded Video
+		#endregion //Rewarded Video
 
 		private bool _childDirected;
 		public bool ChildDirected
@@ -113,24 +113,24 @@ namespace AdMobBuddy.iOS
 			//Setup rewarded video and preload an ad
 			RewardedVideoListener = new RewardedVideoListener(this);
 			RewardedVideoListener.OnVideoReward += RewardedVideoListener_OnVideoReward;
-            RewardedVideoListener.OnRewardedVideoFailed += RewardedVideoListener_OnRewardedVideoFailed;
-            RewardedVideoListener.OnRewardedVideoDismissed += RewardedVideoListener_OnRewardedVideoDismissed; ;
+			RewardedVideoListener.OnRewardedVideoFailed += RewardedVideoListener_OnRewardedVideoFailed;
+			RewardedVideoListener.OnRewardedVideoDismissed += RewardedVideoListener_OnRewardedVideoDismissed; ;
 			RewardBasedVideoAd.SharedInstance.Delegate = RewardedVideoListener;
 
 			LoadRewardedVideoAd();
 		}
 
-        private void RewardedVideoListener_OnRewardedVideoDismissed(object sender, EventArgs e)
-        {
+		private void RewardedVideoListener_OnRewardedVideoDismissed(object sender, EventArgs e)
+		{
 			OnRewardedVideoDismissed?.Invoke(this, EventArgs.Empty);
-        }
+		}
 
-        private void RewardedVideoListener_OnRewardedVideoFailed(object sender, EventArgs e)
+		private void RewardedVideoListener_OnRewardedVideoFailed(object sender, EventArgs e)
 		{
 			OnRewardedVideoFailed?.Invoke(this, EventArgs.Empty);
 		}
 
-        private void RewardedVideoListener_OnVideoReward(object sender, RewardedVideoEventArgs e)
+		private void RewardedVideoListener_OnVideoReward(object sender, RewardedVideoEventArgs e)
 		{
 			OnVideoReward?.Invoke(sender, e);
 		}
